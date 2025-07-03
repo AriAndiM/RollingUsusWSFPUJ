@@ -177,7 +177,7 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
     akhir = st.number_input("Rit Libur Akhir:", min_value=0 , max_value=51, value=0)
     potong_bebek = ["--Pilih Satu--", "Libur", "Tidak Libur"]
     # Dropdown untuk pilih satu
-    pilih_potong_bebek = st.selectbox("Silakan pilih:", potong_bebek)
+    pilih_potong_bebek = st.selectbox("Apakah Potong Bebek Libur?", potong_bebek)
 
     # Ambil tanggal dari input
     tanggal = st.date_input("Pilih tanggal:", value=datetime.date.today())
