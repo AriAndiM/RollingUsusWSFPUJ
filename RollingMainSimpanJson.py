@@ -3,7 +3,6 @@ import json
 from collections import deque
 from datetime import datetime, timedelta
 from babel.dates import format_date
-import datetime
 import os
 
 # File untuk menyimpan riwayat rolling
