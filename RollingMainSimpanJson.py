@@ -182,7 +182,8 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
         jumlah_potong = st.number_input("Jumlah Rit Potong:", min_value=1, max_value=51, value=1)
     
     # Tanggal dan hari
-    tanggal = st.date_input("Pilih tanggal:", value=datetime.date.today())
+    # tanggal = st.date_input("Pilih tanggal:", value=datetime.date.today())
+    tanggal = st.date_input("Pilih tanggal:", value=datetime.today().date())
     hari_indo = {
         'Monday': 'Senin', 'Tuesday': 'Selasa', 'Wednesday': 'Rabu',
         'Thursday': 'Kamis', 'Friday': 'Jumat', 'Saturday': 'Sabtu', 'Sunday': 'Minggu'
