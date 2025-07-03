@@ -164,100 +164,85 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
         "45": "Pak Bowo", "46": "Bu Wulan", "47": "Pak Dicky", "48": "Pak Bowo",
         "49": "Pak Faizal", "50": "Pak Bowo", "51": "Formaju"
     }
-
-    col1, col2 = st.columns([1, 4])  # rasio 1:4 agar gambar lebih kecil dari teks
-
+    
+    col1, col2 = st.columns([1, 4])
     with col1:
-        st.image("logo puj.png", width=130)  # ganti dengan path ke file gambar kamu
-
+        st.image("logo puj.png", width=130)
     with col2:
         st.markdown("<h1 style='margin-bottom: 0;'>Phalosari Unggul Jaya</h1>", unsafe_allow_html=True)
-    # Jumlah_Rit_Libur = st.number_input("Jumlah Rit Libur:", min_value=0, max_value=51, value=0)
+    
     awal = st.number_input("Rit Libur Awal:", min_value=0, max_value=51, value=0)
-    akhir = st.number_input("Rit Libur Akhir:", min_value=0 , max_value=51, value=0)
+    akhir = st.number_input("Rit Libur Akhir:", min_value=0, max_value=51, value=0)
+    
     potong_bebek = ["--Pilih Satu--", "Libur", "Tidak Libur"]
-    # Dropdown untuk pilih satu
     pilih_potong_bebek = st.selectbox("Apakah Potong Bebek Libur?", potong_bebek)
-
+    
+    jumlah_potong = 0
+    if pilih_potong_bebek == "Tidak Libur":
+        jumlah_potong = st.number_input("Jumlah Rit Potong:", min_value=1, max_value=51, value=1)
+    
     # Ambil tanggal dari input
     tanggal = st.date_input("Pilih tanggal:", value=datetime.date.today())
-
-    # Mapping nama hari ke Bahasa Indonesia
     hari_indo = {
-        'Monday': 'Senin',
-        'Tuesday': 'Selasa',
-        'Wednesday': 'Rabu',
-        'Thursday': 'Kamis',
-        'Friday': 'Jumat',
-        'Saturday': 'Sabtu',
-        'Sunday': 'Minggu'
+        'Monday': 'Senin', 'Tuesday': 'Selasa', 'Wednesday': 'Rabu',
+        'Thursday': 'Kamis', 'Friday': 'Jumat', 'Saturday': 'Sabtu', 'Sunday': 'Minggu'
     }
-
-    # Ambil nama hari dalam bahasa Indonesia
     hari = hari_indo[tanggal.strftime('%A')]
-
-    # Tampilkan tanggal dengan tanda *
-    st.markdown(f"<p>*{hari}, {tanggal.strftime('%d / %m / %Y')}*</p>", unsafe_allow_html=True)
-    # Tampilkan keterangan libur
-    st.markdown(f"Libur rit {awal} s/d {akhir}")
-
-
+    st.markdown(f"<p style='margin-bottom:0'>*{hari}, {tanggal.strftime('%d / %m / %Y')}*</p>", unsafe_allow_html=True)
+    st.markdown(f"<p style='margin-bottom:0'>Libur rit {awal} s/d {akhir}</p>", unsafe_allow_html=True)
+    
     # Step 1: Buat daftar key libur
-    libur_keys = []
     if awal <= akhir:
         libur_keys = list(range(awal, akhir + 1))
     else:
         libur_keys = list(range(awal, 52)) + list(range(1, akhir + 1))
-
-    # Step 2: Buat daftar rolling_keys dari semua key yang tidak libur (dalam urutan rotasi)
-    total_keys = list(range(1, 52))  # 1-51
-    # Rotasi dimulai dari (akhir + 1)
+    
+    # Step 2: Buat rolling_keys
+    total_keys = list(range(1, 52))
     start = (akhir % 51) + 1
     rotated_keys = total_keys[start - 1:] + total_keys[:start - 1]
-
-    # Filter yang bukan libur
     rolling_keys = [k for k in rotated_keys if k not in libur_keys]
-
-
-    # Step 3: Ambil nama dari rolling_keys
+    
+    # Step 3: Buat hasil rolling
     rolling_result = [(index + 1, str(k), data[str(k)]) for index, k in enumerate(rolling_keys)]
-
-    # Step 4: Bagi hasil rolling sesuai ketentuan:
-    # - RPA 1 == RPA 2
-    # - RPB ≈ setengah dari RPA 1 (boleh kurang/lebih 1)
-
+    
     total_data = len(rolling_result)
-
+    
     def cari_n_terbaik(total):
         for n in range(total // 2, 0, -1):
             sisa = total - 2 * n
-            if abs(sisa - n // 2) <= 1:  # RPB ≈ setengah dari RPA, toleransi ±1
+            if abs(sisa - n // 2) <= 1:
                 return n, sisa
         return 0, 0
-
+    
     rpa_len, rpb_len = cari_n_terbaik(total_data)
-
-    # Potong data sesuai jumlah
+    
     blok1 = rolling_result[:rpa_len]
     blok2 = rolling_result[rpa_len:rpa_len + rpa_len]
-    blok3 = rolling_result[rpa_len + rpa_len:rpa_len + rpa_len + rpb_len]
-
-    # Fungsi tampilkan blok (nomor urut mulai dari 1 di tiap blok)
+    
+    # Jika Potong Bebek Tidak Libur, ambil data sesuai jumlah inputan
+    blok3 = []
+    if pilih_potong_bebek == "Tidak Libur":
+        blok3 = rolling_result[rpa_len + rpa_len:rpa_len + rpa_len + jumlah_potong]
+    
+    # Fungsi tampilkan semua blok
     def tampilkan_semua_blok(blok_data):
         hasil = ""
         for judul, blok in blok_data:
-            hasil += f"<span>&#42;{judul}&#42;</span><br>"
-            for i, (_, key, nama) in enumerate(blok, start=1):
-                hasil += f"{i}/{key}. {nama}<br>"
+            hasil += f"<span>*{judul}*</span><br>"
+            if blok:
+                for i, (_, key, nama) in enumerate(blok, start=1):
+                    hasil += f"{i}/{key}. {nama}<br>"
+            else:
+                hasil += "Libur<br>"
         st.markdown(hasil, unsafe_allow_html=True)
-
-
-
+    
     tampilkan_semua_blok([
         ("RPA 1 PUJ - WSF (DO)", blok1),
         ("RPA 2 PUJ - WSF (DO)", blok2),
-        ("RPB PUJ", blok3)
+        ("RPB PUJ", blok3 if pilih_potong_bebek == "Tidak Libur" else [])
     ])
+
 
 
 
