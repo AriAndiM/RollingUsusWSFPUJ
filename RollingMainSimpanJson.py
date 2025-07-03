@@ -165,68 +165,67 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
         "49": "Pak Faizal", "50": "Pak Bowo", "51": "Formaju"
     }
     
+    # Header
     col1, col2 = st.columns([1, 4])
     with col1:
-        st.image("logo puj.png", width=130)
+        st.image("logo puj.png", width=120)
     with col2:
         st.markdown("<h1 style='margin-bottom: 0;'>Phalosari Unggul Jaya</h1>", unsafe_allow_html=True)
     
+    # Input
     awal = st.number_input("Rit Libur Awal:", min_value=0, max_value=51, value=0)
     akhir = st.number_input("Rit Libur Akhir:", min_value=0, max_value=51, value=0)
+    status_potong = st.selectbox("Apakah Potong Bebek Libur?", ["--Pilih Satu--", "Libur", "Tidak Libur"])
     
-    potong_bebek = ["--Pilih Satu--", "Libur", "Tidak Libur"]
-    pilih_potong_bebek = st.selectbox("Apakah Potong Bebek Libur?", potong_bebek)
-    
+    # Jika Tidak Libur, input rit potong
     jumlah_potong = 0
-    if pilih_potong_bebek == "Tidak Libur":
+    if status_potong == "Tidak Libur":
         jumlah_potong = st.number_input("Jumlah Rit Potong:", min_value=1, max_value=51, value=1)
     
-    # Ambil tanggal dari input
+    # Tanggal
     tanggal = st.date_input("Pilih tanggal:", value=datetime.date.today())
     hari_indo = {
         'Monday': 'Senin', 'Tuesday': 'Selasa', 'Wednesday': 'Rabu',
         'Thursday': 'Kamis', 'Friday': 'Jumat', 'Saturday': 'Sabtu', 'Sunday': 'Minggu'
     }
     hari = hari_indo[tanggal.strftime('%A')]
+    
+    # Tampilkan Tanggal & Info Libur
     st.markdown(f"<p style='margin-bottom:0'>*{hari}, {tanggal.strftime('%d / %m / %Y')}*</p>", unsafe_allow_html=True)
     st.markdown(f"<p style='margin-bottom:0'>Libur rit {awal} s/d {akhir}</p>", unsafe_allow_html=True)
     
-    # Step 1: Buat daftar key libur
+    # Buat key libur
     if awal <= akhir:
         libur_keys = list(range(awal, akhir + 1))
     else:
         libur_keys = list(range(awal, 52)) + list(range(1, akhir + 1))
     
-    # Step 2: Buat rolling_keys
+    # Buat urutan rolling (kecuali yang libur)
     total_keys = list(range(1, 52))
     start = (akhir % 51) + 1
     rotated_keys = total_keys[start - 1:] + total_keys[:start - 1]
     rolling_keys = [k for k in rotated_keys if k not in libur_keys]
-    
-    # Step 3: Buat hasil rolling
     rolling_result = [(index + 1, str(k), data[str(k)]) for index, k in enumerate(rolling_keys)]
     
-    total_data = len(rolling_result)
+    # Bagi hasil rolling
+    blok1, blok2, blok3 = [], [], []
     
-    def cari_n_terbaik(total):
-        for n in range(total // 2, 0, -1):
-            sisa = total - 2 * n
-            if abs(sisa - n // 2) <= 1:
-                return n, sisa
-        return 0, 0
+    if status_potong == "Libur":
+        n = len(rolling_result) // 2
+        blok1 = rolling_result[:n]
+        blok2 = rolling_result[n:]
+        blok3 = []
     
-    rpa_len, rpb_len = cari_n_terbaik(total_data)
+    elif status_potong == "Tidak Libur":
+        if jumlah_potong < len(rolling_result):
+            blok3 = rolling_result[:jumlah_potong]
+            sisa = rolling_result[jumlah_potong:]
+            n = len(sisa) // 2
+            blok1 = sisa[:n]
+            blok2 = sisa[n:]
     
-    blok1 = rolling_result[:rpa_len]
-    blok2 = rolling_result[rpa_len:rpa_len + rpa_len]
-    
-    # Jika Potong Bebek Tidak Libur, ambil data sesuai jumlah inputan
-    blok3 = []
-    if pilih_potong_bebek == "Tidak Libur":
-        blok3 = rolling_result[rpa_len + rpa_len:rpa_len + rpa_len + jumlah_potong]
-    
-    # Fungsi tampilkan semua blok
-    def tampilkan_semua_blok(blok_data):
+    # Fungsi tampilkan hasil
+    def tampilkan_blok(blok_data):
         hasil = ""
         for judul, blok in blok_data:
             hasil += f"<span>*{judul}*</span><br>"
@@ -237,10 +236,11 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
                 hasil += "Libur<br>"
         st.markdown(hasil, unsafe_allow_html=True)
     
-    tampilkan_semua_blok([
+    # Tampilkan hasil rolling
+    tampilkan_blok([
         ("RPA 1 PUJ - WSF (DO)", blok1),
         ("RPA 2 PUJ - WSF (DO)", blok2),
-        ("RPB PUJ", blok3 if pilih_potong_bebek == "Tidak Libur" else [])
+        ("RPB PUJ", blok3)
     ])
 
 
