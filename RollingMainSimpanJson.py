@@ -165,83 +165,94 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
         "49": "Pak Faizal", "50": "Pak Bowo", "51": "Formaju"
     }
     
-    # Header
+    # Header dengan logo
     col1, col2 = st.columns([1, 4])
     with col1:
-        st.image("logo puj.png", width=120)
+        st.image("logo puj.png", width=130)
     with col2:
         st.markdown("<h1 style='margin-bottom: 0;'>Phalosari Unggul Jaya</h1>", unsafe_allow_html=True)
     
-    # Input
+    # Input tanggal dan rit libur
     awal = st.number_input("Rit Libur Awal:", min_value=0, max_value=51, value=0)
     akhir = st.number_input("Rit Libur Akhir:", min_value=0, max_value=51, value=0)
-    status_potong = st.selectbox("Apakah Potong Bebek Libur?", ["--Pilih Satu--", "Libur", "Tidak Libur"])
+    pilih_potong_bebek = st.selectbox("Apakah Potong Bebek Libur?", ["--Pilih Satu--", "Libur", "Tidak Libur"])
     
-    # Jika Tidak Libur, input rit potong
+    # Jumlah rit potong input jika Tidak Libur
     jumlah_potong = 0
-    if status_potong == "Tidak Libur":
+    if pilih_potong_bebek == "Tidak Libur":
         jumlah_potong = st.number_input("Jumlah Rit Potong:", min_value=1, max_value=51, value=1)
     
-    # Tanggal
+    # Tanggal dan hari
     tanggal = st.date_input("Pilih tanggal:", value=datetime.date.today())
     hari_indo = {
         'Monday': 'Senin', 'Tuesday': 'Selasa', 'Wednesday': 'Rabu',
         'Thursday': 'Kamis', 'Friday': 'Jumat', 'Saturday': 'Sabtu', 'Sunday': 'Minggu'
     }
     hari = hari_indo[tanggal.strftime('%A')]
-    
-    # Tampilkan Tanggal & Info Libur
     st.markdown(f"<p style='margin-bottom:0'>*{hari}, {tanggal.strftime('%d / %m / %Y')}*</p>", unsafe_allow_html=True)
     st.markdown(f"<p style='margin-bottom:0'>Libur rit {awal} s/d {akhir}</p>", unsafe_allow_html=True)
     
-    # Buat key libur
+    # Buat daftar libur
     if awal <= akhir:
         libur_keys = list(range(awal, akhir + 1))
     else:
         libur_keys = list(range(awal, 52)) + list(range(1, akhir + 1))
     
-    # Buat urutan rolling (kecuali yang libur)
+    # Ambil semua key (1–51), rotasi dari akhir + 1
     total_keys = list(range(1, 52))
     start = (akhir % 51) + 1
     rotated_keys = total_keys[start - 1:] + total_keys[:start - 1]
-    rolling_keys = [k for k in rotated_keys if k not in libur_keys]
-    rolling_result = [(index + 1, str(k), data[str(k)]) for index, k in enumerate(rolling_keys)]
     
-    # Bagi hasil rolling
+    # Rolling keys = yang tidak libur
+    rolling_keys = [k for k in rotated_keys if k not in libur_keys]
+    
+    # Tentukan rolling result
+    rolling_result = [(str(k), data[str(k)]) for k in rolling_keys]
+    
+    # Tentukan blok
     blok1, blok2, blok3 = [], [], []
     
-    if status_potong == "Libur":
-        n = len(rolling_result) // 2
-        blok1 = rolling_result[:n]
-        blok2 = rolling_result[n:]
-        blok3 = []
+    if pilih_potong_bebek == "Libur":
+        # Semua rolling dibagi 2
+        half = len(rolling_result) // 2
+        blok1 = rolling_result[:half]
+        blok2 = rolling_result[half:]
+        blok3 = "Libur"
+    elif pilih_potong_bebek == "Tidak Libur":
+        # Cari key sebelum 'awal' yang tidak libur
+        before_awal_keys = [k for k in rolling_keys if k < awal]
+        if len(before_awal_keys) >= jumlah_potong:
+            rpb_keys = before_awal_keys[-jumlah_potong:]
+        else:
+            sisa = jumlah_potong - len(before_awal_keys)
+            rpb_keys = rolling_keys[-sisa:] + before_awal_keys
     
-    elif status_potong == "Tidak Libur":
-        if jumlah_potong < len(rolling_result):
-            blok3 = rolling_result[:jumlah_potong]
-            sisa = rolling_result[jumlah_potong:]
-            n = len(sisa) // 2
-            blok1 = sisa[:n]
-            blok2 = sisa[n:]
+        # Hapus RPB keys dari rolling
+        rolling_keys_final = [k for k in rolling_keys if k not in rpb_keys]
     
-    # Fungsi tampilkan hasil
-    def tampilkan_blok(blok_data):
-        hasil = ""
-        for judul, blok in blok_data:
-            hasil += f"<span>*{judul}*</span><br>"
-            if blok:
-                for i, (_, key, nama) in enumerate(blok, start=1):
-                    hasil += f"{i}/{key}. {nama}<br>"
-            else:
-                hasil += "Libur<br>"
-        st.markdown(hasil, unsafe_allow_html=True)
+        rolling_result = [(str(k), data[str(k)]) for k in rolling_keys_final]
+        blok3 = [(str(k), data[str(k)]) for k in rpb_keys]
     
-    # Tampilkan hasil rolling
-    tampilkan_blok([
-        ("RPA 1 PUJ - WSF (DO)", blok1),
-        ("RPA 2 PUJ - WSF (DO)", blok2),
-        ("RPB PUJ", blok3)
-    ])
+        half = len(rolling_result) // 2
+        blok1 = rolling_result[:half]
+        blok2 = rolling_result[half:]
+    
+    # Fungsi untuk tampilkan blok
+    def tampilkan_blok(judul, blok):
+        hasil = f"<p style='margin-bottom:0'><b>*{judul}*</b></p>"
+        if blok == "Libur":
+            hasil += "Libur<br>"
+        else:
+            for i, (key, nama) in enumerate(blok, 1):
+                hasil += f"{i}/{key}. {nama}<br>"
+        return hasil
+    
+    # Tampilkan semua blok
+    output = ""
+    output += tampilkan_blok("RPA 1 PUJ - WSF (DO)", blok1)
+    output += tampilkan_blok("RPA 2 PUJ - WSF (DO)", blok2)
+    output += tampilkan_blok("RPB PUJ", blok3)
+    st.markdown(output, unsafe_allow_html=True)
 
 
 
