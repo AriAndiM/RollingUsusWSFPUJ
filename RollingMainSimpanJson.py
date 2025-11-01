@@ -159,9 +159,9 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
         "29": "Bu Nur", "30": "Paduka", "31": "Pak David", "32": "Pemuda 2",
         "33": "Pak Ferry", "34": "Pak Sudarsono", "35": "Paduka", "36": "Pak David",
         "37": "Bu Via", "38": "Bu Wulan", "39": "Pak Sudarsono", "40": "Pak Dicky",
-        "41": "Bu Via", "42": "Pak Bowo", "43": "Bu Wulan", "44": "Pak Faizal",
-        "45": "Pak Bowo", "46": "Bu Wulan", "47": "Pak Dicky", "48": "Pak Bowo",
-        "49": "Pak Faizal", "50": "Pak Bowo", "51": "Formaju"
+        "41": "Bu Via", "42": "Bambang Haryanto", "43": "Bu Wulan", "44": "Pak Faizal",
+        "45": "Moch. Slamet Febrianto", "46": "Bu Wulan", "47": "Pak Dicky", "48": "Bambang Haryanto",
+        "49": "Pak Faizal", "50": "Moch. Slamet Febrianto", "51": "Formaju"
     }
     
     # Header dengan logo
@@ -253,6 +253,7 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
     output += tampilkan_blok("RPA 2 PUJ - WSF (DO)", blok2)
     output += tampilkan_blok("RPB PUJ", blok3)
     st.markdown(output, unsafe_allow_html=True)
+
 
 
 
