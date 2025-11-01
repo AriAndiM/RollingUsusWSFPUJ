@@ -150,11 +150,11 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
     # Data lengkap
     data = {
         "1": "Pak Zainuri", "2": "Bu Nur", "3": "Bu Nur", "4": "Pak Lukman",
-        "5": "Bu Yuni", "6": "Bu Sujadmi", "7": "Pak Zainuri", "8": "Pak Sudarsono",
+        "5": "Arifin", "6": "Bu Sujadmi", "7": "Pak Zainuri", "8": "Pak Sudarsono",
         "9": "Pemuda 1", "10": "Pak Lukman", "11": "Pak Ferry", "12": "Pemuda 1",
         "13": "Pak Sudarsono", "14": "Pak Zainuri", "15": "Bu Nur", "16": "Bu Wulan",
-        "17": "Bu Yuni", "18": "Pemuda 2", "19": "Pak Ferry", "20": "Pak Zainuri",
-        "21": "Bu Nur", "22": "Pak Sudarsono", "23": "Pak Zainuri", "24": "Bu Yuni",
+        "17": "Arifin", "18": "Pemuda 2", "19": "Pak Ferry", "20": "Pak Zainuri",
+        "21": "Bu Nur", "22": "Pak Sudarsono", "23": "Pak Zainuri", "24": "Arifin",
         "25": "Pak Ferry", "26": "Pemuda 1", "27": "Pak Zainuri", "28": "Pak Zainuri",
         "29": "Bu Nur", "30": "Paduka", "31": "Pak David", "32": "Pemuda 2",
         "33": "Pak Ferry", "34": "Pak Sudarsono", "35": "Paduka", "36": "Pak David",
@@ -253,6 +253,7 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
     output += tampilkan_blok("RPA 2 PUJ - WSF (DO)", blok2)
     output += tampilkan_blok("RPB PUJ", blok3)
     st.markdown(output, unsafe_allow_html=True)
+
 
 
 
