@@ -150,7 +150,7 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
     # Data lengkap
     data = {
         "1": "Pak Zainuri", "2": "Bu Nur", "3": "Bu Nur", "4": "Pak Lukman",
-        "5": "Arifin", "6": "Bu Sujadmi", "7": "Pak Zainuri", "8": "Pak Sudarsono",
+        "5": "Arifin", "6": "Zainuddin", "7": "Pak Zainuri", "8": "Pak Sudarsono",
         "9": "Pemuda 1", "10": "Pak Lukman", "11": "Pak Ferry", "12": "Pemuda 1",
         "13": "Pak Sudarsono", "14": "Pak Zainuri", "15": "Bu Nur", "16": "Bu Wulan",
         "17": "Arifin", "18": "Pemuda 2", "19": "Pak Ferry", "20": "Pak Zainuri",
@@ -253,6 +253,7 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
     output += tampilkan_blok("RPA 2 PUJ - WSF (DO)", blok2)
     output += tampilkan_blok("RPB PUJ", blok3)
     st.markdown(output, unsafe_allow_html=True)
+
 
 
 
