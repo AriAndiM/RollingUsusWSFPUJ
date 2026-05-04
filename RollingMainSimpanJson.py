@@ -120,7 +120,7 @@ if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--"
                             st.write(f'\nLine - {line}')
                             for key, value in entries.items():
                                 if value in selected_nama:
-                                    value = f"{value} *Tunggu Pembayaran*"
+                                    value = f"{value} **_Tunggu Pembayaran_**"
                                 st.write(f"{key}. {value}")
 
                         history[target_date] = data
