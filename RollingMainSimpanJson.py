@@ -15,24 +15,20 @@ if os.path.exists(HISTORY_FILE):
 else:
     history = {}
 
-# Fungsi untuk mendapatkan tanggal pengambilan usus kotor
-# Jika hari ini Sabtu, maka tanggal yang ditampilkan adalah Senin
-# Selain itu, tetap menampilkan besok
 def get_tomorrow_date():
-    today = datetime.today()  # Menggunakan today() agar sesuai zona waktu lokal
-    if today.weekday() == 5:  # Jika hari ini Sabtu (5)
-        target_date = today + timedelta(days=2)  # Lompat ke Senin
+    today = datetime.today()
+    if today.weekday() == 5:
+        target_date = today + timedelta(days=2)
     else:
-        target_date = today + timedelta(days=1)  # Besok untuk hari lainnya
-    return target_date.strftime('%Y-%m-%d')  # Format YYYY-MM-DD untuk penyimpanan
+        target_date = today + timedelta(days=1)
+    return target_date.strftime('%Y-%m-%d')
 
-# Fungsi untuk rolling data selain "WSF"
 def roll_data(*datasets):
     queues = []
     
     for d in datasets:
         if not isinstance(d, dict):
-            continue  # Skip jika data bukan dictionary
+            continue
 
         filtered_values = []
         for v in d.values():
@@ -59,70 +55,81 @@ def roll_data(*datasets):
             if d[k] != 'WSF':
                 d[k] = next(new_values, d[k])
 
-# Streamlit UI
+# ================= UI =================
 st.title("Rolling Jadwal Pengambilan Usus Kotor")
 
-# Daftar pilihan
 perusahaan = ["--Pilih Perusahaan--", "Wahana Sejahtera Foods", "Phalosari Unggul Jaya"]
-# Dropdown untuk pilih satu
 selection = st.selectbox("Silakan pilih satu perusahaan:", perusahaan)
 
+# ================= WSF =================
 if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--":
-    # Atur dua kolom: kolom gambar dan kolom judul
-    col1, col2 = st.columns([1, 4])  # rasio 1:4 agar gambar lebih kecil dari teks
+
+    col1, col2 = st.columns([1, 4])
 
     with col1:
-        st.image("logo.png", width=130)  # ganti dengan path ke file gambar kamu
+        st.image("logo.png", width=130)
 
     with col2:
         st.markdown("<h1 style='margin-bottom: 0;'>Wahana Sejahtera Foods</h1>", unsafe_allow_html=True)
     
-    # Membuat tab
     tabs = st.tabs(["Rolling", "Riwayat Rolling"])
 
     with tabs[0]:
+
+        # ✅ MULTISELECT NAMA
+        daftar_nama = [
+            "Eko Budi","Linda Wulan Prihantini","Hermanto","Karang Taruna PG",
+            "Desta","Bambang Harianto","Anang Zamzami","Sugeng",
+            "Karang Taruna Tamtama II","Zainuddin","Karang Taruna Turi Pinggir",
+            "Heru Susanto","Siti Rodhiyah","FORMAJU","Ismail",
+            "Karang Taruna Tamtama I","Karang Taruna Tawang","Siti Mu'awanah",
+            "Karang Taruna PBPB","Karang Taruna Gilang","Sukamto",
+            "Karang Taruna Jabon","Karang Taruna Singorejo","Kartar BS 2",
+            "Karang Taruna Garas","PBGR Bejo","Abdul Minin",
+            "Karang Taruna Bulak","Karang Taruna Paras","Karang Taruna Gondang II",
+            "Karang Taruna Doyong","Karang Taruna Singorejo I","FORMAJU I",
+            "Nur Laili","Rudiyanto","Bu Siti Rodhiyah","WSF"
+        ]
+
+        selected_nama = st.multiselect(
+            "Pilih nama yang diberi status *Tunggu Pembayaran*:",
+            daftar_nama
+        )
+
         data_input = st.text_area("**Masukkan Data (format JSON):**")
+
         if st.button("Rolling", type="primary"):
             if data_input:
                 try:
-                    # Parse input menjadi dictionary
                     data = json.loads(data_input)
 
-                    # Pastikan data memiliki key yang sesuai
                     required_keys = ["1", "2", "3", "5", "6"]
                     if not all(k in data for k in required_keys):
                         st.error("Data harus memiliki key: 1, 2, 3, 5, dan 6", icon="🚨")
                     else:
-                        # Konversi key dari string ke integer
                         data = {int(k): v for k, v in data.items()}
                         
-                        # Jalankan rolling
                         target_date = get_tomorrow_date()
                         st.write("\n**Bismillah...**\n")
                         st.write(f"**Jadwal pengambilan usus kotor {format_date(datetime.strptime(target_date, '%Y-%m-%d'), format='full', locale='id')}**")
 
                         roll_data(data[1], data[2], data[3], data[5], data[6])
 
-                        # Menampilkan hasil rolling dalam format teks
+                        # ✅ HASIL DENGAN LABEL
                         for line, entries in data.items():
                             st.write(f'\nLine - {line}')
                             for key, value in entries.items():
+                                if value in selected_nama:
+                                    value = f"{value} *Tunggu Pembayaran*"
                                 st.write(f"{key}. {value}")
 
-                        # Simpan hasil rolling berdasarkan tanggal
                         history[target_date] = data
 
-                        # Simpan ke file JSON
                         with open(HISTORY_FILE, "w", encoding="utf-8") as f:
                             json.dump(history, f, indent=4, ensure_ascii=False)
 
-                        # # Menampilkan hasil rolling dalam format JSON
-                        # st.subheader("Hasil Rolling Untuk Rolling Selanjutnya")
-                        # output_json = json.dumps({str(k): v for k, v in data.items()}, indent=4, ensure_ascii=False)
-                        # st.text_area("Output JSON", output_json, height=300)
-
                 except json.JSONDecodeError:
-                    st.error("Format data tidak valid! Harap masukkan data dalam format JSON.", icon="⚠️")
+                    st.error("Format data tidak valid!", icon="⚠️")
             else:
                 st.warning("Anda belum memasukkan data.", icon="⚠️")
 
@@ -131,10 +138,6 @@ if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--"
         if history:
             selected_date = st.selectbox("Pilih Tanggal Rolling", list(history.keys()))
             if selected_date:
-                # st.write(f"\n**Jadwal pengambilan usus kotor {format_date(datetime.strptime(selected_date, '%Y-%m-%d'), format='full', locale='id')}**")
-                
-                # Menampilkan hasil rolling dalam format JSON
-                st.subheader("Hasil Rolling")
                 history_json = json.dumps(history[selected_date], indent=4, ensure_ascii=False)
                 st.text_area(" ", history_json, height=300)
                 
@@ -146,6 +149,7 @@ if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--"
         else:
             st.write("Belum ada data rolling yang tersimpan.")
 
+# ================= PUJ (TIDAK DIUBAH) =================
 if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
     # Data lengkap
     data = {
@@ -253,17 +257,3 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
     output += tampilkan_blok("RPA 2 PUJ - WSF (DO)", blok2)
     output += tampilkan_blok("RPB PUJ", blok3)
     st.markdown(output, unsafe_allow_html=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
