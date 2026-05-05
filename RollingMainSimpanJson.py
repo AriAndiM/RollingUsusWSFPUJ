@@ -237,6 +237,26 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
         "49": "Arifin", "50": "Moch. Slamet Febrianto", "51": "Formaju"
     }
 
+    nama_list_puj = [
+        "Pak Zainuri",
+        "Bu Nur",
+        "Pak Lukman",
+        "Arifin",
+        "Zainuddin",
+        "Pak Sudarsono",
+        "Pemuda 1",
+        "Pak Ferry",
+        "Bu Wulan",
+        "Pemuda 2",
+        "Paduka",
+        "Pak David",
+        "Bu Via",
+        "Pak Dicky",
+        "Bambang Haryanto",
+        "Moch. Slamet Febrianto",
+        "Formaju"
+    ]
+
     col1, col2 = st.columns([1, 4])
     with col1:
         st.image("logo puj.png", width=130)
@@ -263,6 +283,13 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
     hari = hari_indo[tanggal.strftime('%A')]
     st.markdown(f"<p style='margin-bottom:0'>*{hari}, {tanggal.strftime('%d / %m / %Y')}*</p>", unsafe_allow_html=True)
     st.markdown(f"<p style='margin-bottom:0'>Libur rit {awal} s/d {akhir}</p>", unsafe_allow_html=True)
+
+    selected_nama_puj = st.multiselect(
+        "Pilih nama yang *Tunggu Pembayaran* (PUJ):",
+        nama_list_puj
+    )
+
+    nama_list_puj = sorted(nama_list_puj)
     
     # Buat daftar libur
     if awal <= akhir:
