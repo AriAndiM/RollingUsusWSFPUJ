@@ -352,6 +352,7 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
                 # 🔥 kasih label jika dipilih
                 if clean_nama in selected_nama_puj:
                     nama = f"{clean_nama} \\*(Tunggu Pembayaran)\\*"
+                    # nama = f"{clean_nama} \*(Tunggu Pembayaran)\*"
     
                 hasil += f"{i}/{key}. {nama}<br>"
     
