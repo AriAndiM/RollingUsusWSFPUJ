@@ -113,7 +113,9 @@ if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--"
                         st.write("\n**Bismillah...**\n")
                         st.write(f"**Jadwal pengambilan usus kotor {format_date(datetime.strptime(target_date, '%Y-%m-%d'), format='full', locale='id')}**")
 
-                        roll_data(data[1], data[2], data[3], data[5], data[6])
+                        # roll_data(data[1], data[2], data[3], data[5], data[6])
+                        line_order = [1, 2, 3, 5, 6]
+                        roll_data(data, line_order)
 
                         # ✅ HASIL DENGAN LABEL
                         for line, entries in data.items():
