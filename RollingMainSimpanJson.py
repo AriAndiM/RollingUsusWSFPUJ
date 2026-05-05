@@ -272,13 +272,15 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
     jumlah_potong = 0
     if pilih_potong_bebek == "Tidak Libur":
         jumlah_potong = st.number_input("Jumlah Rit Potong:", min_value=1, max_value=51, value=1)
+
+    nama_list_puj = sorted(nama_list_puj, key=lambda x: x.lower())
     
     selected_nama_puj = st.multiselect(
         "Pilih nama yang *Tunggu Pembayaran* (PUJ):",
         nama_list_puj
     )
 
-    nama_list_puj = sorted(nama_list_puj)
+    # nama_list_puj = sorted(nama_list_puj)
     
     # Tanggal dan hari
     # tanggal = st.date_input("Pilih tanggal:", value=datetime.date.today())
@@ -351,7 +353,7 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
     
                 # 🔥 kasih label jika dipilih
                 if clean_nama in selected_nama_puj:
-                    nama = f"{clean_nama} \\*(Tunggu Pembayaran)\\*"
+                    nama = f"{clean_nama} *(Tunggu Pembayaran)*"
                     # nama = f"{clean_nama} \*(Tunggu Pembayaran)\*"
     
                 hasil += f"{i}/{key}. {nama}<br>"
