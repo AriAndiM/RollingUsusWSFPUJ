@@ -146,19 +146,18 @@ if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--"
                         # 🔥 TAMBAHAN LOGIC LABEL
                         # =========================
                         for line, entries in data.items():
-                            st.write(f'\nLine - {line}')
-                            for key, value in entries.items():
-
-                                # cek nama tanpa label
-                                clean_value = value.replace(" *(Tunggu Pembayaran)*", "")
-
-                                if clean_value in selected_nama:
-                                    value = f"{clean_value} *(Tunggu Pembayaran)*"
-
-                                st.write(f"{key}. {value}")
-
-                                # simpan kembali ke data
-                                data[line][key] = value
+                        st.markdown(f"**Line - {line}**")
+                        for key, value in entries.items():
+                    
+                            clean_value = value.replace(" *(Tunggu Pembayaran)*", "")
+                    
+                            if clean_value in selected_nama:
+                                value = f"{clean_value} *(Tunggu Pembayaran)*"
+                    
+                            # 🔥 pakai markdown supaya bintang tampil
+                            st.markdown(f"{key}. {value}")
+                    
+                            data[line][key] = value
 
                         history[target_date] = data
 
