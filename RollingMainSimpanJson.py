@@ -8,16 +8,35 @@ import os
 # File untuk menyimpan riwayat rolling
 HISTORY_FILE = "rolling_history.json"
 
-# Fungsi untuk memuat riwayat rolling dari file
+# Load history
 if os.path.exists(HISTORY_FILE):
     with open(HISTORY_FILE, "r", encoding="utf-8") as f:
         history = json.load(f)
 else:
     history = {}
 
+# =========================
+# LIST NAMA UNTUK MULTISELECT
+# =========================
+nama_list = [
+    "Sukamto","Bu Siti Rodhiyah","Ismail","Eko Budi","Linda Wulan Prihantini",
+    "Hermanto","Karang Taruna PG","Desta","Bambang Harianto","Anang Zamzami",
+    "Sugeng","Karang Taruna Tamtama II","Zainuddin","Karang Taruna Turi Pinggir",
+    "Heru Susanto","Siti Rodhiyah","FORMAJU","Karang Taruna Tamtama I",
+    "Karang Taruna Tawang","Siti Mu'awanah","Karang Taruna PBPB",
+    "Karang Taruna Gilang","Karang Taruna Jabon","Karang Taruna Singorejo",
+    "Kartar BS 2","Karang Taruna Garas","PBGR Bejo","Abdul Minin",
+    "Karang Taruna Bulak","Karang Taruna Paras","Karang Taruna Gondang II",
+    "Kartar BS 1","Karang Taruna Doyong","Karang Taruna Singorejo I",
+    "FORMAJU I","Nur Laili","Rudiyanto","wsf"
+]
+
+# =========================
+# FUNCTION
+# =========================
 def get_tomorrow_date():
     today = datetime.today()
-    if today.weekday() == 5:
+    if today.weekday() == 5:  # Sabtu
         target_date = today + timedelta(days=2)
     else:
         target_date = today + timedelta(days=1)
@@ -55,13 +74,17 @@ def roll_data(*datasets):
             if d[k] != 'WSF':
                 d[k] = next(new_values, d[k])
 
-# ================= UI =================
+# =========================
+# UI
+# =========================
 st.title("Rolling Jadwal Pengambilan Usus Kotor")
 
 perusahaan = ["--Pilih Perusahaan--", "Wahana Sejahtera Foods", "Phalosari Unggul Jaya"]
 selection = st.selectbox("Silakan pilih satu perusahaan:", perusahaan)
 
-# ================= WSF =================
+# =========================
+# WSF
+# =========================
 if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--":
 
     col1, col2 = st.columns([1, 4])
@@ -74,29 +97,18 @@ if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--"
     
     tabs = st.tabs(["Rolling", "Riwayat Rolling"])
 
+    # =========================
+    # TAB ROLLING
+    # =========================
     with tabs[0]:
 
-        # ✅ MULTISELECT NAMA
-        daftar_nama = [
-            "Eko Budi","Linda Wulan Prihantini","Hermanto","Karang Taruna PG",
-            "Desta","Bambang Harianto","Anang Zamzami","Sugeng",
-            "Karang Taruna Tamtama II","Zainuddin","Karang Taruna Turi Pinggir",
-            "Heru Susanto","Siti Rodhiyah","FORMAJU","Ismail",
-            "Karang Taruna Tamtama I","Karang Taruna Tawang","Siti Mu'awanah",
-            "Karang Taruna PBPB","Karang Taruna Gilang","Sukamto",
-            "Karang Taruna Jabon","Karang Taruna Singorejo","Kartar BS 2",
-            "Karang Taruna Garas","PBGR Bejo","Abdul Minin",
-            "Karang Taruna Bulak","Karang Taruna Paras","Karang Taruna Gondang II",
-            "Karang Taruna Doyong","Karang Taruna Singorejo I","FORMAJU I",
-            "Nur Laili","Rudiyanto","Bu Siti Rodhiyah","WSF"
-        ]
-
-        selected_nama = st.multiselect(
-            "Pilih nama yang diberi status *Tunggu Pembayaran*:",
-            daftar_nama
-        )
-
         data_input = st.text_area("**Masukkan Data (format JSON):**")
+
+        # 🔥 MULTISELECT TAMBAHAN
+        selected_nama = st.multiselect(
+            "Pilih nama yang *Tunggu Pembayaran*:",
+            nama_list
+        )
 
         if st.button("Rolling", type="primary"):
             if data_input:
@@ -110,18 +122,29 @@ if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--"
                         data = {int(k): v for k, v in data.items()}
                         
                         target_date = get_tomorrow_date()
+
                         st.write("\n**Bismillah...**\n")
                         st.write(f"**Jadwal pengambilan usus kotor {format_date(datetime.strptime(target_date, '%Y-%m-%d'), format='full', locale='id')}**")
 
                         roll_data(data[1], data[2], data[3], data[5], data[6])
 
-                        # ✅ HASIL DENGAN LABEL
+                        # =========================
+                        # 🔥 TAMBAHAN LOGIC LABEL
+                        # =========================
                         for line, entries in data.items():
                             st.write(f'\nLine - {line}')
                             for key, value in entries.items():
-                                if value in selected_nama:
-                                    value = f"{value} \\*Tunggu Pembayaran\\*"
+
+                                # cek nama tanpa label
+                                clean_value = value.replace(" *(Tunggu Pembayaran)*", "")
+
+                                if clean_value in selected_nama:
+                                    value = f"{clean_value} *(Tunggu Pembayaran)*"
+
                                 st.write(f"{key}. {value}")
+
+                                # simpan kembali ke data
+                                data[line][key] = value
 
                         history[target_date] = data
 
@@ -133,11 +156,15 @@ if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--"
             else:
                 st.warning("Anda belum memasukkan data.", icon="⚠️")
 
+    # =========================
+    # TAB HISTORY
+    # =========================
     with tabs[1]:
         st.subheader("Riwayat Rolling")
         if history:
             selected_date = st.selectbox("Pilih Tanggal Rolling", list(history.keys()))
             if selected_date:
+                st.subheader("Hasil Rolling")
                 history_json = json.dumps(history[selected_date], indent=4, ensure_ascii=False)
                 st.text_area(" ", history_json, height=300)
                 
@@ -149,9 +176,11 @@ if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--"
         else:
             st.write("Belum ada data rolling yang tersimpan.")
 
-# ================= PUJ (TIDAK DIUBAH) =================
+# =========================
+# PUJ (TIDAK DIUBAH)
+# =========================
 if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
-    # Data lengkap
+
     data = {
         "1": "Pak Zainuri", "2": "Bu Nur", "3": "Bu Nur", "4": "Pak Lukman",
         "5": "Arifin", "6": "Zainuddin", "7": "Pak Zainuri", "8": "Pak Sudarsono",
@@ -167,14 +196,13 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
         "45": "Moch. Slamet Febrianto", "46": "Bu Wulan", "47": "Pak Dicky", "48": "Bambang Haryanto",
         "49": "Arifin", "50": "Moch. Slamet Febrianto", "51": "Formaju"
     }
-    
-    # Header dengan logo
+
     col1, col2 = st.columns([1, 4])
     with col1:
         st.image("logo puj.png", width=130)
     with col2:
         st.markdown("<h1 style='margin-bottom: 0;'>Phalosari Unggul Jaya</h1>", unsafe_allow_html=True)
-    
+
     # Input tanggal dan rit libur
     awal = st.number_input("Rit Libur Awal:", min_value=0, max_value=51, value=0)
     akhir = st.number_input("Rit Libur Akhir:", min_value=0, max_value=51, value=0)
