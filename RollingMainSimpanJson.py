@@ -152,7 +152,7 @@ if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--"
                                 clean_value = value.replace(" *(Tunggu Pembayaran)*", "")
                         
                                 if clean_value in selected_nama:
-                                    value = f"{clean_value} *(Tunggu Pembayaran)*"
+                                    value = f"{clean_value} \\*(Tunggu Pembayaran)\\*"
                         
                                 # 🔥 pakai markdown supaya bintang tampil
                                 st.markdown(f"{key}. {value}")
