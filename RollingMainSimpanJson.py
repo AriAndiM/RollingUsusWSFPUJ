@@ -51,7 +51,7 @@ def roll_data(*datasets):
 
         filtered_values = []
         for v in d.values():
-            if v != 'WSF':
+            if str(v).strip().lower() != 'wsf':
                 filtered_values.append(v)
         queues.append(deque(filtered_values))
     
