@@ -312,11 +312,21 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
     # Fungsi untuk tampilkan blok
     def tampilkan_blok(judul, blok):
         hasil = f"<p style='margin-bottom:0'><b>*{judul}*</b></p>"
+        
         if blok == "Libur":
             hasil += "Libur<br>"
         else:
             for i, (key, nama) in enumerate(blok, 1):
+    
+                # 🔥 bersihkan label lama
+                clean_nama = nama.replace(" *(Tunggu Pembayaran)*", "")
+    
+                # 🔥 kasih label jika dipilih
+                if clean_nama in selected_nama_puj:
+                    nama = f"{clean_nama} \\*(Tunggu Pembayaran)\\*"
+    
                 hasil += f"{i}/{key}. {nama}<br>"
+    
         return hasil
     
     # Tampilkan semua blok
