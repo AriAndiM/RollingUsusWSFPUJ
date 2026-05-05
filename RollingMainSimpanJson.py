@@ -44,34 +44,48 @@ def get_tomorrow_date():
 
 def roll_data(*datasets):
     queues = []
-    
-    for d in datasets:
+    valid_indices = []
+
+    # Ambil queue + tandai yang valid
+    for idx, d in enumerate(datasets):
+        if not isinstance(d, dict):
+            queues.append(deque())
+            continue
+
+        filtered = [
+            v for v in d.values()
+            if str(v).strip().lower() != 'wsf'
+        ]
+
+        if filtered:
+            queues.append(deque(filtered))
+            valid_indices.append(idx)
+        else:
+            queues.append(deque())
+
+    # 🔥 rolling hanya antar group yang ada isinya
+    if len(valid_indices) > 1:
+        first_idx = valid_indices[0]
+        first_value = queues[first_idx].popleft()
+
+        for i in range(len(valid_indices) - 1):
+            curr = valid_indices[i]
+            nxt = valid_indices[i + 1]
+
+            if queues[nxt]:
+                queues[curr].append(queues[nxt].popleft())
+
+        queues[valid_indices[-1]].append(first_value)
+
+    # assign balik
+    for idx, d in enumerate(datasets):
         if not isinstance(d, dict):
             continue
 
-        filtered_values = []
-        for v in d.values():
-            if str(v).strip().lower() != 'wsf':
-                filtered_values.append(v)
-        queues.append(deque(filtered_values))
-    
-    if queues and queues[0]:
-        first_value = queues[0].popleft()
-        
-        for i in range(len(queues) - 1):
-            if queues[i + 1]:
-                queues[i].append(queues[i + 1].popleft())
+        new_values = iter(queues[idx])
 
-        queues[-1].append(first_value)
-
-    for i, d in enumerate(datasets):
-        if not isinstance(d, dict):
-            continue
-        keys = list(d.keys())
-        new_values = iter(queues[i])
-        
-        for k in keys:
-            if d[k] != 'WSF':
+        for k in d.keys():
+            if str(d[k]).strip().lower() != 'wsf':
                 d[k] = next(new_values, d[k])
 
 # =========================
