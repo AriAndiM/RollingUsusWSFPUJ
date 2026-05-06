@@ -22,7 +22,6 @@ nama_list = [
     "Abdul Minin",
     "Anang Zamzami",
     "Bambang Harianto",
-    "Bu Siti Rodhiyah",
     "Desta",
     "Eko Budi",
     "FORMAJU",
