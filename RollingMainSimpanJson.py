@@ -56,7 +56,7 @@ nama_list = [
     "Sugeng",
     "Sukamto",
     "wsf",
-    "zainuddin"
+    "Zainuddin"
 ]
 
 # =========================
