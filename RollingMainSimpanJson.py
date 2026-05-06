@@ -172,21 +172,34 @@ if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--"
                         # =========================
                         # 🔥 TAMBAHAN LOGIC LABEL
                         # =========================
+                        # 🔥 copy data khusus untuk history (bersih)
+                        history_data = {}
+                        
                         for line, entries in data.items():
                             st.markdown(f"**Line - {line}**")
+                        
+                            history_data[line] = {}
+                        
                             for key, value in entries.items():
                         
+                                # 🔥 pastikan bersih dulu
                                 clean_value = value.replace(" *(Tunggu Pembayaran)*", "")
                         
+                                # =========================
+                                # TAMPILAN (ADA LABEL)
+                                # =========================
+                                display_value = clean_value
                                 if clean_value in selected_nama:
-                                    value = f"{clean_value} \\*(Tunggu Pembayaran)\\*"
+                                    display_value = f"{clean_value} \\*(Tunggu Pembayaran)\\*"
                         
-                                # 🔥 pakai markdown supaya bintang tampil
-                                st.markdown(f"{key}. {value}")
+                                st.markdown(f"{key}. {display_value}")
                         
-                                data[line][key] = value
+                                # =========================
+                                # SIMPAN (TANPA LABEL)
+                                # =========================
+                                history_data[line][key] = clean_value
 
-                        history[target_date] = data
+                        history[target_date] = history_data
 
                         with open(HISTORY_FILE, "w", encoding="utf-8") as f:
                             json.dump(history, f, indent=4, ensure_ascii=False)
