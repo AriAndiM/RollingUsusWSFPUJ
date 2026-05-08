@@ -54,7 +54,7 @@ nama_list = [
     "Siti Rodhiyah",
     "Sugeng",
     "Sukamto",
-    "WSF",
+    "wsf",
     "Zainuddin"
 ]
 
@@ -188,8 +188,10 @@ if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--"
                                 # =========================
                                 # TAMPILAN (ADA LABEL)
                                 # =========================
+                                selected_nama_lower = {n.lower() for n in selected_nama}
+                                
                                 display_value = clean_value
-                                if clean_value in selected_nama:
+                                if clean_value.lower() in selected_nama_lower:
                                     display_value = f"{clean_value} \\*(Tunggu Pembayaran)\\*"
                         
                                 st.markdown(f"{key}. {display_value}")
@@ -365,9 +367,9 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
                 clean_nama = nama.replace(" *(Tunggu Pembayaran)*", "")
     
                 # 🔥 kasih label jika dipilih
-                if clean_nama in selected_nama_puj:
-                    nama = f"{clean_nama} *(Tunggu Pembayaran)*"
-                    # nama = f"{clean_nama} \*(Tunggu Pembayaran)\*"
+                selected_nama_puj_lower = {n.lower() for n in selected_nama_puj}
+
+                if clean_nama.lower() in selected_nama_puj_lower:
     
                 hasil += f"{i}/{key}. {nama}<br>"
     
