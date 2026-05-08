@@ -370,6 +370,7 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
                 selected_nama_puj_lower = {n.lower() for n in selected_nama_puj}
 
                 if clean_nama.lower() in selected_nama_puj_lower:
+                    nama = f"{clean_nama} *(Tunggu Pembayaran)*"
     
                 hasil += f"{i}/{key}. {nama}<br>"
     
