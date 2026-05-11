@@ -164,8 +164,8 @@ if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--"
                         
                         target_date = get_tomorrow_date()
 
-                        st.write("\n**Bismillah...**\n")
-                        st.write(f"**Jadwal pengambilan usus kotor {format_date(datetime.strptime(target_date, '%Y-%m-%d'), format='full', locale='id')}**")
+                        # st.write("\n**Bismillah...**\n")
+                        # st.write(f"**Jadwal pengambilan usus kotor {format_date(datetime.strptime(target_date, '%Y-%m-%d'), format='full', locale='id')}**")
 
                         roll_data(data[1], data[2], data[3], data[5], data[6])
 
@@ -176,8 +176,8 @@ if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--"
                         
                         output_text = ""
                         
-                        # output_text += "Bismillah...\n\n"
-                        # output_text += f"Jadwal pengambilan usus kotor {format_date(datetime.strptime(target_date, '%Y-%m-%d'), format='full', locale='id')}\n\n"
+                        output_text += "Bismillah...\n\n"
+                        output_text += f"Jadwal pengambilan usus kotor {format_date(datetime.strptime(target_date, '%Y-%m-%d'), format='full', locale='id')}\n\n"
                         
                         history_data = {}
                         
@@ -203,7 +203,7 @@ if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--"
                             output_text += "\n"
                         
                         # 🔥 tampilkan ke text area (biar bisa dicopy)
-                        # st.text_area("Hasil (Copy ke WhatsApp):", output_text, height=400)
+                        st.text_area("Hasil (Copy ke WhatsApp):", output_text, height=400)
                         
                         # simpan history
                         history[target_date] = history_data
