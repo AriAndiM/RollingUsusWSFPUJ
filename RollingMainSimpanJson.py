@@ -170,41 +170,85 @@ if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--"
                         roll_data(data[1], data[2], data[3], data[5], data[6])
 
                         # =========================
-                        # 🔥 TAMBAHAN LOGIC LABEL
+                        # 🔥 FORMAT OUTPUT WA
                         # =========================
-                        # 🔥 copy data khusus untuk history (bersih)
+                        selected_nama_lower = {n.lower() for n in selected_nama}
+                        
+                        output_text = ""
+                        
+                        output_text += "Bismillah...\n\n"
+                        output_text += f"Jadwal pengambilan usus kotor {format_date(datetime.strptime(target_date, '%Y-%m-%d'), format='full', locale='id')}\n\n"
+                        
                         history_data = {}
                         
                         for line, entries in data.items():
-                            st.markdown(f"**Line - {line}**")
+                            output_text += f"Line - {line}\n"
                         
                             history_data[line] = {}
                         
                             for key, value in entries.items():
                         
-                                # 🔥 pastikan bersih dulu
                                 clean_value = value.replace(" *(Tunggu Pembayaran)*", "")
                         
-                                # =========================
-                                # TAMPILAN (ADA LABEL)
-                                # =========================
-                                selected_nama_lower = {n.lower() for n in selected_nama}
-                                
+                                # tampilkan label jika dipilih
                                 display_value = clean_value
                                 if clean_value.lower() in selected_nama_lower:
-                                    display_value = f"{clean_value} \\*(Tunggu Pembayaran)\\*"
+                                    display_value = f"{clean_value} *(Tunggu Pembayaran)*"
                         
-                                st.markdown(f"{key}. {display_value}")
+                                output_text += f"{key}. {display_value}\n"
                         
-                                # =========================
-                                # SIMPAN (TANPA LABEL)
-                                # =========================
+                                # simpan tanpa label
                                 history_data[line][key] = clean_value
-
+                        
+                            output_text += "\n"
+                        
+                        # 🔥 tampilkan ke text area (biar bisa dicopy)
+                        st.text_area("Hasil (Copy ke WhatsApp):", output_text, height=400)
+                        
+                        # simpan history
                         history[target_date] = history_data
-
+                        
                         with open(HISTORY_FILE, "w", encoding="utf-8") as f:
                             json.dump(history, f, indent=4, ensure_ascii=False)
+
+                        # roll_data(data[1], data[2], data[3], data[5], data[6])
+
+                        # # =========================
+                        # # 🔥 TAMBAHAN LOGIC LABEL
+                        # # =========================
+                        # # 🔥 copy data khusus untuk history (bersih)
+                        # history_data = {}
+                        
+                        # for line, entries in data.items():
+                        #     st.markdown(f"**Line - {line}**")
+                        
+                        #     history_data[line] = {}
+                        
+                        #     for key, value in entries.items():
+                        
+                        #         # 🔥 pastikan bersih dulu
+                        #         clean_value = value.replace(" *(Tunggu Pembayaran)*", "")
+                        
+                        #         # =========================
+                        #         # TAMPILAN (ADA LABEL)
+                        #         # =========================
+                        #         selected_nama_lower = {n.lower() for n in selected_nama}
+                                
+                        #         display_value = clean_value
+                        #         if clean_value.lower() in selected_nama_lower:
+                        #             display_value = f"{clean_value} \\*(Tunggu Pembayaran)\\*"
+                        
+                        #         st.markdown(f"{key}. {display_value}")
+                        
+                        #         # =========================
+                        #         # SIMPAN (TANPA LABEL)
+                        #         # =========================
+                        #         history_data[line][key] = clean_value
+
+                        # history[target_date] = history_data
+
+                        # with open(HISTORY_FILE, "w", encoding="utf-8") as f:
+                        #     json.dump(history, f, indent=4, ensure_ascii=False)
 
                 except json.JSONDecodeError:
                     st.error("Format data tidak valid!", icon="⚠️")
