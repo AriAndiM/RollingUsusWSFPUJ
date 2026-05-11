@@ -203,7 +203,7 @@ if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--"
                             output_text += "\n"
                         
                         # 🔥 tampilkan ke text area (biar bisa dicopy)
-                        st.text_area("Hasil (Copy ke WhatsApp):", output_text, height=400)
+                        st.text_area("", output_text, height=400)
                         
                         # simpan history
                         history[target_date] = history_data
