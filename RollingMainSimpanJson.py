@@ -285,17 +285,16 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
         "5": "Arifin", "6": "Zainuddin", "7": "Pak Zainuri", "8": "Pak Sudarsono",
         "9": "Pemuda 1", "10": "Pak Lut Lukman", "11": "Pak Ferry", "12": "Pemuda 1",
         "13": "Pak Sudarsono", "14": "Pak Zainuri", "15": "Bu Nur", "16": "Bu Linda Wulan",
-        "17": "Arifin", "18": "Pemuda 2", "19": "Pak Ferry", "20": "Pak Zainuri",
-        "21": "Bu Nur", "22": "Pak Sudarsono", "23": "Pak Zainuri", "24": "Arifin",
-        "25": "Pak Ferry", "26": "Pemuda 1", "27": "Pak Zainuri", "28": "Pak Zainuri",
-        "29": "Bu Nur", "30": "Paduka", "31": "Pak David", "32": "Pemuda 2",
-        "33": "Pak Ferry", "34": "Pak Sudarsono", "35": "Paduka", "36": "Pak David",
-        "37": "Bu Dyvia", "38": "Bu Linda Wulan", "39": "Pak Sudarsono", "40": "Pak Dicky",
-        "41": "Bu Dyvia", "42": "Bambang Haryanto", "43": "Bu Linda Wulan", "44": "Arifin",
-        "45": "Moch. Slamet Febrianto", "46": "Bu Linda Wulan", "47": "Pak Dicky", "48": "Bambang Haryanto",
-        "49": "Arifin", "50": "Moch. Slamet Febrianto", "51": "Formaju"
+        "17": "Arifin", "18": "Pemuda 2", "19": "Pak Ferry", "20": "Bu Nur",
+        "21": "Pak Sudarsono", "22": "Arifin", "23": "Pak Ferry", "24": "Pemuda 1",
+        "25": "Bu Nur", "26": "Paduka", "27": "Pak David", "28": "Pemuda 2",
+        "29": "Pak Ferry", "30": "Pak Sudarsono", "31": "Paduka", "32": "Pak David",
+        "33": "Bu Dyvia", "34": "Bu Linda Wulan", "35": "Pak Sudarsono", "36": "Pak Dicky",
+        "37": "Bu Dyvia", "38": "Bambang Haryanto", "39": "Bu Linda Wulan", "40": "Arifin",
+        "41": "Moch. Slamet Febrianto", "42": "Bu Linda Wulan", "43": "Pak Dicky", "44": "Bambang Haryanto",
+        "45": "Arifin", "46": "Moch. Slamet Febrianto", "47": "Formaju"
     }
-
+    
     nama_list_puj = [
         "Pak Zainuri",
         "Bu Nur",
