@@ -322,8 +322,9 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
         st.markdown("<h1 style='margin-bottom: 0;'>Phalosari Unggul Jaya</h1>", unsafe_allow_html=True)
 
     # Input tanggal dan rit libur
-    awal = st.number_input("Rit Libur Awal:", min_value=0, max_value=51, value=0)
-    akhir = st.number_input("Rit Libur Akhir:", min_value=0, max_value=51, value=0)
+    max_rit = len(data)
+    awal = st.number_input("Rit Libur Awal:", min_value=0, max_value=max_rit, value=0)
+    akhir = st.number_input("Rit Libur Akhir:", min_value=0, max_value=max_rit, value=0)
     pilih_potong_bebek = st.selectbox("Apakah Potong Bebek Libur?", ["--Pilih Satu--", "Libur", "Tidak Libur"])
     
     # Jumlah rit potong input jika Tidak Libur
