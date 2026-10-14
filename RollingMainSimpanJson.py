@@ -353,16 +353,38 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
     st.markdown(f"<p style='margin-bottom:0'>Libur rit {awal} s/d {akhir}</p>", unsafe_allow_html=True)
 
     
+    # # Buat daftar libur
+    # if awal <= akhir:
+    #     libur_keys = list(range(awal, akhir + 1))
+    # else:
+    #     libur_keys = list(range(awal, 52)) + list(range(1, akhir + 1))
+    
+    # # Ambil semua key (1–51), rotasi dari akhir + 1
+    # total_keys = list(range(1, 52))
+    # start = (akhir % 51) + 1
+    # rotated_keys = total_keys[start - 1:] + total_keys[:start - 1]
+
     # Buat daftar libur
+    max_rit = len(data)
+    
     if awal <= akhir:
         libur_keys = list(range(awal, akhir + 1))
     else:
-        libur_keys = list(range(awal, 52)) + list(range(1, akhir + 1))
+        libur_keys = list(range(awal, max_rit + 1)) + list(range(1, akhir + 1))
     
-    # Ambil semua key (1–51), rotasi dari akhir + 1
-    total_keys = list(range(1, 52))
-    start = (akhir % 51) + 1
+    # Ambil semua key sesuai jumlah data yang tersedia
+    total_keys = list(range(1, max_rit + 1))
+    
+    # Rotasi dimulai dari rit setelah rit libur akhir
+    start = (akhir % max_rit) + 1
     rotated_keys = total_keys[start - 1:] + total_keys[:start - 1]
+    
+    # Rolling keys = rit yang tidak libur
+    rolling_keys = [k for k in rotated_keys if k not in libur_keys]
+    
+    # Tentukan rolling result
+    rolling_result = [(str(k), data[str(k)]) for k in rolling_keys]
+    
     
     # Rolling keys = yang tidak libur
     rolling_keys = [k for k in rotated_keys if k not in libur_keys]
