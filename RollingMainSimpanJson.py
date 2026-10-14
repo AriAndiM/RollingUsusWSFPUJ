@@ -282,17 +282,17 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
 
     data = {
         "1": "Pak Zainuri", "2": "Bu Nur", "3": "Bu Nur", "4": "Pak Lut Lukman",
-        "5": "Arifin", "6": "Zainuddin", "7": "Pak Zainuri", "8": "Pak Sudarsono",
-        "9": "Pemuda 1", "10": "Pak Lut Lukman", "11": "Pak Ferry", "12": "Pemuda 1",
-        "13": "Pak Sudarsono", "14": "Pak Zainuri", "15": "Bu Nur", "16": "Bu Linda Wulan",
-        "17": "Arifin", "18": "Pemuda 2", "19": "Pak Ferry", "20": "Bu Nur",
-        "21": "Pak Sudarsono", "22": "Arifin", "23": "Pak Ferry", "24": "Pemuda 1",
-        "25": "Bu Nur", "26": "Paduka", "27": "Pak David", "28": "Pemuda 2",
-        "29": "Pak Ferry", "30": "Pak Sudarsono", "31": "Paduka", "32": "Pak David",
-        "33": "Bu Dyvia", "34": "Bu Linda Wulan", "35": "Pak Sudarsono", "36": "Pak Dicky",
-        "37": "Bu Dyvia", "38": "Bambang Haryanto", "39": "Bu Linda Wulan", "40": "Arifin",
-        "41": "Moch. Slamet Febrianto", "42": "Bu Linda Wulan", "43": "Pak Dicky", "44": "Bambang Haryanto",
-        "45": "Arifin", "46": "Moch. Slamet Febrianto", "47": "Formaju"
+        "5": "Zainuddin", "6": "Pak Zainuri", "7": "Pak Sudarsono", "8": "Pemuda 1",
+        "9": "Pak Lut Lukman", "10": "Pak Ferry", "11": "Pemuda 1", "12": "Pak Sudarsono",
+        "13": "Pak Zainuri", "14": "Bu Nur", "15": "Bu Linda Wulan", "16": "Arifin",
+        "17": "Pemuda 2", "18": "Pak Ferry", "19": "Bu Nur", "20": "Pak Sudarsono",
+        "21": "Arifin", "22": "Pak Ferry", "23": "Pemuda 1", "24": "Bu Nur",
+        "25": "Paduka", "26": "Pak David", "27": "Pemuda 2", "28": "Pak Ferry",
+        "29": "Pak Sudarsono", "30": "Paduka", "31": "Pak David", "32": "Bu Dyvia",
+        "33": "Bu Linda Wulan", "34": "Pak Sudarsono", "35": "Pak Dicky", "36": "Bu Dyvia",
+        "37": "Bambang Haryanto", "38": "Bu Linda Wulan", "39": "Arifin", "40": "Moch. Slamet Febrianto",
+        "41": "Bu Linda Wulan", "42": "Pak Dicky", "43": "Bambang Haryanto", "44": "Moch. Slamet Febrianto",
+        "45": "Formaju"
     }
     
     nama_list_puj = [
