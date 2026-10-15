@@ -283,18 +283,17 @@ if selection == "Wahana Sejahtera Foods" and selection != "--Pilih Perusahaan--"
 if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
 
     data = {
-        "1": "Pak Zainuri", "2": "Bu Nur", "3": "Bu Nur", "4": "Pak Lut Lukman",
-        "5": "Zainuddin", "6": "Pak Zainuri", "7": "Pak Sudarsono", "8": "Pemuda 1",
-        "9": "Pak Lut Lukman", "10": "Pak Ferry", "11": "Pemuda 1", "12": "Pak Sudarsono",
-        "13": "Pak Zainuri", "14": "Bu Nur", "15": "Bu Linda Wulan", "16": "Arifin",
-        "17": "Pemuda 2", "18": "Pak Ferry", "19": "Bu Nur", "20": "Pak Sudarsono",
-        "21": "Arifin", "22": "Pak Ferry", "23": "Pemuda 1", "24": "Bu Nur",
-        "25": "Paduka", "26": "Pak David", "27": "Pemuda 2", "28": "Pak Ferry",
-        "29": "Pak Sudarsono", "30": "Paduka", "31": "Pak David", "32": "Bu Dyvia",
-        "33": "Bu Linda Wulan", "34": "Pak Sudarsono", "35": "Pak Dicky", "36": "Bu Dyvia",
-        "37": "Bambang Haryanto", "38": "Bu Linda Wulan", "39": "Arifin", "40": "Moch. Slamet Febrianto",
-        "41": "Bu Linda Wulan", "42": "Pak Dicky", "43": "Bambang Haryanto", "44": "Moch. Slamet Febrianto",
-        "45": "Formaju"
+        "1": "Bu Nur", "2": "Bu Nur", "3": "Pak Lut Lukman", "4": "Zainuddin",
+        "5": "Pak Sudarsono", "6": "Pemuda 1", "7": "Pak Lut Lukman", "8": "Pak Ferry",
+        "9": "Bu Nur", "10": "Pemuda 1", "11": "Pak Sudarsono", "12": "Bu Linda Wulan",
+        "13": "Arifin", "14": "Pemuda 2", "15": "Pak Ferry", "16": "Bu Nur",
+        "17": "Pak Sudarsono", "18": "Arifin", "19": "Pak Ferry", "20": "Pemuda 1",
+        "21": "Bu Nur", "22": "Paduka", "23": "Pak David", "24": "Pemuda 2",
+        "25": "Pak Ferry", "26": "Pak Sudarsono", "27": "Paduka", "28": "Pak David",
+        "29": "Bu Dyvia", "30": "Bu Linda Wulan", "31": "Pak Sudarsono", "32": "Pak Dicky",
+        "33": "Bu Dyvia", "34": "Bambang Haryanto", "35": "Bu Linda Wulan", "36": "Arifin",
+        "37": "Moch. Slamet Febrianto", "38": "Bu Linda Wulan", "39": "Pak Dicky", "40": "Bambang Haryanto",
+        "41": "Moch. Slamet Febrianto", "42": "Formaju"
     }
     
     nama_list_puj = [
