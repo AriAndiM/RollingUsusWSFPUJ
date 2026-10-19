@@ -290,7 +290,7 @@ if selection == "Phalosari Unggul Jaya" and selection != "--Pilih Perusahaan--":
         "17": "Pak Sudarsono", "18": "Arifin", "19": "Pak Ferry", "20": "Pemuda 1",
         "21": "Bu Nur", "22": "Paduka", "23": "Pak David", "24": "Pemuda 2",
         "25": "Pak Ferry", "26": "Pak Sudarsono", "27": "Paduka", "28": "Pak David",
-        "29": "Bu Dyvia", "30": "Bu Linda Wulan", "31": "Pak Sudarsono", "32": "Pak Dicky",
+        "29": "Bu Dyvia", "30": "Bu Linda Wulan", "31": "Formaju 1", "32": "Pak Dicky",
         "33": "Bu Dyvia", "34": "Bambang Haryanto", "35": "Bu Linda Wulan", "36": "Arifin",
         "37": "Moch. Slamet Febrianto", "38": "Bu Linda Wulan", "39": "Pak Dicky", "40": "Bambang Haryanto",
         "41": "Moch. Slamet Febrianto", "42": "Formaju"
